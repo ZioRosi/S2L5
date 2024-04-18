@@ -1,0 +1,83 @@
+// Online C compiler to run C program online
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Funzione per presentare il menu iniziale
+void presentazione() {
+    printf("Benvenuto nel gioco di domande e risposte!\n");
+    printf("Scegli cosa vuoi fare:\n");
+    printf("A) Iniziare una nuova partita\n");
+    printf("B) Uscire dal gioco\n");
+}
+
+// Funzione per gestire una nuova partita
+void nuova_partita() {
+    char nome[50];
+    int punteggio = 0;
+
+    printf("\nInserisci il tuo nome: ");
+    fgets(nome, 50, stdin);
+    nome[strcspn(nome, "\n")] = 0; // Rimuove il carattere newline da fgets
+
+    printf("\n%s, sei pronto per iniziare la partita!\n", nome);
+
+    // Array delle domande e risposte
+    char domande[][100] = {"Qual è la capitale dell'Italia?",
+                            "Quanti continenti ci sono nel mondo?",
+                            "Chi ha scritto 'La Divina Commedia'?"};
+    char risposte[][3][50] = {{"Roma", "Milano", "Berlino"},
+                              {"5", "6", "7"},
+                              {"Dante Alighieri", "Petrarca", "Boccaccio"}};
+    int risposte_corrette[] = {1, 2, 1};
+
+    // Ciclo per le domande
+    for (int i = 0; i < 3; i++) {
+        printf("\nDomanda %d: %s\n", i + 1, domande[i]);
+        printf("Scegli la risposta corretta:\n");
+        for (int j = 0; j < 3; j++) {
+            printf("%d) %s\n", j + 1, risposte[i][j]);
+        }
+
+        int risposta_utente;
+        printf("Risposta: ");
+        scanf("%d", &risposta_utente);
+        getchar(); // Consuma il newline residuo nel buffer
+
+        if (risposta_utente == risposte_corrette[i]) {
+            printf("Risposta corretta!\n");
+            punteggio++;
+        } else {
+            printf("Risposta sbagliata!\n");
+        }
+    }
+
+    printf("\n%s, hai totalizzato %d punti!\n", nome, punteggio);
+}
+
+int main() {
+    char scelta;
+
+    do {
+        presentazione();
+        printf("\nScelta: ");
+        scanf(" %c", &scelta);
+        getchar(); // Consuma il newline residuo nel buffer
+
+        switch (scelta) {
+            case 'A':
+            case 'a':
+                nuova_partita();
+                break;
+            case 'B':
+            case 'b':
+                printf("\nArrivederci!\n");
+                break;
+            default:
+                printf("\nScelta non valida. Riprova.\n");
+                break;
+        }
+    } while (scelta != 'B' && scelta != 'b');
+
+    return 0;
+}
